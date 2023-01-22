@@ -34,6 +34,10 @@ export const LightningInvoice = ({
           />
           <div>OR</div>
           <Button onClick={copyInvoive}>Copy</Button>
+          <div>OR</div>
+          <a href={"lightning:" + invoiceData.payment_request}><Button>Pay with wallet/alby</Button></a>
+          
+          
         </div>
       ) : (
         <div>could not generate invoice, please retry later</div>
