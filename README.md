@@ -4,14 +4,22 @@ Upload file so that you can use them on Nostr
 
 ## Getting started
 
-- clone this repo
-`git clone`
+### Clone this repo
 
-- install the deps 
-`yarn`
+```bash
+git clone
+```
 
-- setup env variable
+### Install the deps 
+```bash
+yarn
+```
+
+### Setup env variable
+
 fill host on VITE_HOST field
 
-- launch React
-`yarn dev`
+### launch React dev server
+```bash
+yarn dev
+```
