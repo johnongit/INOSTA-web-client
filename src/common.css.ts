@@ -7,6 +7,18 @@ export const text = style({
   fontSize: vars.fontSize.body,
 });
 
+export const row = style({
+  display: "flex",
+  flexDirection: "row",
+});
+
+export const centered = style({
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+export const centeredRow = style([row, centered]);
+
 export const content = style({
   width: "max-content",
   maxWidth: "100%",
