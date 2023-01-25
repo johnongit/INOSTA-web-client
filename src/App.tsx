@@ -26,6 +26,7 @@ export interface UploadedFile {
 }
 
 const App = () => {
+  console.log("rendering app");
   const [isLoading, setIsLoading] = useState(false);
   const [invoiceData, setInvoiceData] = useStorageItem<InvoiceData>(
     STORAGE_CURRENT_INVOICE_DATA_KEY
@@ -41,13 +42,38 @@ const App = () => {
   );
 
   const fetchNewInvoice = () => {
+    console.log("fetching new invoice");
     setIsLoading(true);
     getInvoice().then((result) => {
       if (result) setInvoiceData(result);
+      console.log(result);
       setIsLoading(false);
     });
   };
+  // Destroy STORAGE_CURRENT_INVOICE_DATA_KEY storage item on unmount
+  useEffect(() => {
+    const cleanup = () => {
+      localStorage.removeItem(STORAGE_CURRENT_INVOICE_DATA_KEY);
+    };
+    window.addEventListener("beforeunload", cleanup);
+    return () => {
+      window.removeEventListener("beforeunload", cleanup);
+    };
 
+    
+  }, []);
+
+
+  useEffect(() => {
+    // refresh invoice each hour
+    const interval = setInterval(() => {
+      fetchNewInvoice();
+    }, 3600000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   useEffect(() => {
     if (availableHashes?.length) {
       setShowFileUploadInput(true);
