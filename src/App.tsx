@@ -19,7 +19,6 @@ import {
 import { useStorageItem } from "./hooks/storage";
 import { UploadedFiles } from "./components";
 import { decode } from "light-bolt11-decoder";
-import { NoComment } from "react-nocomment";
 
 
 
