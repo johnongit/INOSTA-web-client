@@ -43,7 +43,14 @@ const App = () => {
     STORAGE_UPLOADED_FILES_KEY,
     []
   );
-  
+  // check if stored invoice is really an invoice
+  const checkStoredInvoice = () => {
+    const invoiceData: string = localStorage.getItem(STORAGE_CURRENT_INVOICE_DATA_KEY) || "";
+    const invoiceDecoded = JSON.parse(invoiceData);
+    if (!invoiceDecoded) return false;
+    if (!invoiceDecoded.success) return false;
+    return true;
+  };
   // check if invoice is expired
   const checkInvoiceExpiration = () => {
     const invoiceData: string = localStorage.getItem(STORAGE_CURRENT_INVOICE_DATA_KEY) || "";
@@ -64,8 +71,15 @@ const App = () => {
   const fetchNewInvoice = () => {
     setIsLoading(true);
     getInvoice().then((result) => {
-      if (result) setInvoiceData(result);
-      setIsLoading(false);
+      if (result) {
+        if (!result.success) {
+          fetchNewInvoice();
+        }
+        else {
+          setInvoiceData(result);
+          setIsLoading(false);
+        }
+      }
     });
   };
 
@@ -73,6 +87,7 @@ const App = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (checkInvoiceExpiration()) fetchNewInvoice();
+      if (!checkStoredInvoice()) fetchNewInvoice();
     }, 10000);
   }, []);
   useEffect(() => {
@@ -82,6 +97,8 @@ const App = () => {
       if (!invoiceData) fetchNewInvoice();
     }
   }, []);
+  // check in store if invoice is really an invoice
+
 
   useEffect(() => {
     if (!invoiceData) return;
