@@ -8,12 +8,11 @@ import { fromBlob } from "image-resize-compress";
 interface FileUploadProps {
   availableHashes: string[];
   onFileUpload: (spentHashes: string[], uploadedFile: UploadedFile) => void;
-};
+}
 
 const resizeFile = (file: File, type: string) => {
   const fileResized = fromBlob(file, 60, 2000, 2000, type)
   .then((blob) => {
-    console.log('blob', blob)
     return new File([blob], file.name, {type: file.type});
   });
   return fileResized;
