@@ -13,7 +13,7 @@ export const uploadFile = async (
   paymentHash: string
 ): Promise<CheckUploadedFileData | null> => {
   try {
-    const url = `${HOST}/checkUploadedFile?payment-hash=${paymentHash}`;
+    const url = `${HOST}/uploadFile?payment-hash=${paymentHash}`;
 
     const data = new FormData();
     data.append("file", file);
