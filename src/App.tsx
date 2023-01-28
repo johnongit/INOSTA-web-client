@@ -19,6 +19,7 @@ import {
 import { useStorageItem } from "./hooks/storage";
 import { UploadedFiles } from "./components";
 import { decode } from "light-bolt11-decoder";
+import { NoComment } from "react-nocomment";
 
 
 
@@ -160,7 +161,13 @@ const App = () => {
         </div>
 
         <hr></hr>
-
+        <div className={contentContainer}>
+        <p className={text}>
+        Proudly my made by <a href="https://snort.social/p/npub19f8dq2txsrkjue4wjvzjrr84lncskee6v9xqksl8g2mxhcx9ag7qjk0aex" target="_blank" rel="noreferrer">@acidbunny</a> (<a href="https://github.com/johnongit/NostrImgUploader" target="_blank" rel="noreferrer">Github</a>)
+        </p>
+        </div>
+        <hr></hr>
+         
         <UploadedFiles files={uploadedFiles} />
       </div>
     </div>
