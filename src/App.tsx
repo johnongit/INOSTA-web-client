@@ -18,6 +18,9 @@ import {
 } from "./constants";
 import { useStorageItem } from "./hooks/storage";
 import { UploadedFiles } from "./components";
+import { decode } from "light-bolt11-decoder";
+
+
 
 export interface UploadedFile {
   name: File["name"];
@@ -31,6 +34,7 @@ const App = () => {
     STORAGE_CURRENT_INVOICE_DATA_KEY
   );
   const [showFileUploadInput, setShowFileUploadInput] = useState(false);
+
   const [availableHashes, setAvailableHashes] = useStorageItem<string[]>(
     STORAGE_HASH_KEY,
     []
@@ -39,6 +43,23 @@ const App = () => {
     STORAGE_UPLOADED_FILES_KEY,
     []
   );
+  
+  // check if invoice is expired
+  const checkInvoiceExpiration = () => {
+    const invoiceData: string = localStorage.getItem(STORAGE_CURRENT_INVOICE_DATA_KEY) || "";
+    if (!invoiceData) return false;
+    const paymentRequest = JSON.parse(invoiceData).payment_request;
+    const decodedInvoiceData = decode(paymentRequest);
+    const sections = decodedInvoiceData.sections;
+    const expiry = sections.filter((section: { name: string; }) => section.name === "expiry")[0].value;
+    const timestamp = sections.filter((section: { name: string;}) => section.name === "timestamp")[0].value;
+    const expiredInvoiceDate = new Date((timestamp + expiry) * 1000);
+    if (expiredInvoiceDate < new Date()) {
+      console.log("invoice is expired");
+      return true;
+    }
+    return false;
+  };
 
   const fetchNewInvoice = () => {
     setIsLoading(true);
@@ -48,6 +69,12 @@ const App = () => {
     });
   };
 
+  // Check if invoice is expired each 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (checkInvoiceExpiration()) fetchNewInvoice();
+    }, 10000);
+  }, []);
   useEffect(() => {
     if (availableHashes?.length) {
       setShowFileUploadInput(true);
@@ -64,9 +91,8 @@ const App = () => {
         if (!isPaid) return;
 
         setShowFileUploadInput(true);
-
-        const newHashes = uniq([...availableHashes, invoiceData.payment_hash]);
-        setAvailableHashes(newHashes);
+        const newHash = [invoiceData.payment_hash];
+        setAvailableHashes(newHash);
 
         clearInterval(interval);
         fetchNewInvoice();
@@ -77,6 +103,7 @@ const App = () => {
       clearInterval(interval);
     };
   }, [invoiceData]);
+  
 
   const onFileUpload = (spentHashes: string[], uploadedFile: UploadedFile) => {
     const newAvailableHashes = availableHashes.filter(
