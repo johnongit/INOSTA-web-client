@@ -32,9 +32,8 @@ export const LightningInvoice = ({
             className={invoiceDisplayQRCode}
             value={invoiceData.payment_request}
           />
-          <div>OR</div>
+
           <Button onClick={copyInvoive}>Copy</Button>
-          <div>OR</div>
           <a href={"lightning:" + invoiceData.payment_request}><Button>Pay with wallet/alby</Button></a>
           
           

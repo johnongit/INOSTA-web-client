@@ -10,7 +10,8 @@ export const container = style({
   width: "100vw",
   padding: "1rem 2rem",
   backgroundColor: vars.color.quaternary,
-  boxSizing: "border-box"
+  boxSizing: "border-box",
+  overflowY: "auto",
 });
 
 export const header = style([content]);
@@ -30,7 +31,7 @@ export const contentContainer = style({
 
 export const paymentAndUpload = style({
   marginBottom: "2rem",
-  height: "15rem",
+  height: "auto",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
