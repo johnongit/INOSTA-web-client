@@ -31,7 +31,7 @@ interface CheckInvoicePaymentStatusData {
 
 export const checkInvoicePaymentStatus = async (paymentHash: string) => {
   try {
-    const url = `${HOST}/getSignedUrl`;
+    const url = `${HOST}/checkPayment`;
 
     const result: Response<CheckInvoicePaymentStatusData> = await axios.post(
       url,
