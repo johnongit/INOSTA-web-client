@@ -121,9 +121,11 @@ const App = () => {
   return (
     <div className={container}>
       <header className={header}>
-        <h1 className={mainTitle}>NostrImgUploader</h1>
+        <h1 className={mainTitle}>INOSTA</h1>
+
+        <img src="/logo.png" alt="logo" width="100" height="100" />
         <p className={text}>
-          Welcome on NostrImgUploader. Pay a Lightning Invoice to upload a file.
+          Welcome on INOSTA. Pay a Lightning Invoice to upload a file.
           You will then be able to use it on Nostr.{" "}
         </p>
       </header>
