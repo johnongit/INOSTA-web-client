@@ -2,6 +2,8 @@
 
 A simple web client demonstrator for [INOSTA API backend](https://github.com/johnongit/INOSTA-Nostr-Img-Service)
 
+Live instance at https://inosta.cc
+
 ## Getting started
 
 ### Clone this repo
