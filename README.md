@@ -1,6 +1,6 @@
 # NostrImgUploader
 
-Upload file so that you can use them on Nostr
+A simple web client demonstrator for [INOSTA API backend](https://github.com/johnongit/INOSTA-Nostr-Img-Service)
 
 ## Getting started
 
